@@ -1,0 +1,59 @@
+﻿@model LoginViewModel
+
+<link href="~/css/auth.css" rel="stylesheet" />
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<section class="h-100">
+    <div class="container h-100">
+        <div class="row justify-content-md-center h-100">
+            <div class="card-wrapper">
+                <div class="brand text-center" style="max-height: 28%!important">
+                    <img src="@Url.Content("~/img/CreativeFusionsLogo.png")" alt="logo">
+                </div>
+                <div class="card fat">
+                    <div class="card-body">
+                        <h4 class="card-title">Login</h4>
+                        <form asp-controller="Auth" asp-action="Login" method="post">
+
+                            <!-- Hidden Return Url -->
+                            <input type="hidden" asp-for="ReturnUrl" />
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input id="email" name="email" type="email" class="form-control" asp-for="Email">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input id="password" name="password" type="password" class="form-control" asp-for="Password" required data-eye>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-checkbox custom-control">
+                                    <input type="checkbox" name="remember" id="remember" class="custom-control-input">
+                                    <label for="remember" class="custom-control-label">Remember Me</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group m-0">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    Login
+                                </button>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <a href="forgot.html">
+                                    Forgot Password?
+                                </a>
+                                -
+                                <a asp-controller="Auth" asp-action="Register" asp-route-returnUrl="@Model.ReturnUrl">Sign up for an account</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -8,20 +8,30 @@ namespace CreativeFusions.Service
 {
     public class Startup
     {
+        #region Fields
+
+        private IConfiguration _configuration;
+        #endregion
+
+        #region Constructors
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
+        #endregion
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", config =>
+                {
+                    config.Authority = "https://localhost:44333/";
+                    config.Audience = "NorthYorkshireCentreService";
+                });
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -29,16 +39,12 @@ namespace CreativeFusions.Service
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }
